@@ -1,9 +1,19 @@
 import React, { Component  } from 'react'
 import {View, Text, TouchableOpacity} from 'react-native'
-import { getMetricsMetaInfo, timeToString } from  '../utils/helpers'
+import  {connect} from 'react-redux'
+
+import {
+  getMetricsMetaInfo,
+  timeToString,
+  getDailyRemindersValue
+} from  '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciStepper from './UdaciStepper'
 import DateHeader from './DateHeader'
+import {Ionicons} from '@expo/vector-icons'
+import TextButton from './TextButton'
+import {submitEntry, removeEntry} from '../utils/api'
+import {addEntry} from '../actions'
 
 function SubmitBtn ({onPress}) {
   return(
@@ -13,7 +23,7 @@ function SubmitBtn ({onPress}) {
   )
 }
 
-export default class AddEntry extends Component {
+class AddEntry extends Component {
   state = {
     run: 0,
     bike: 0,
@@ -56,6 +66,7 @@ export default class AddEntry extends Component {
   submit = () => {
     const key = timeToString()
     const entry = this.state
+
     this.setState({
         run: 0,
         bike: 0,
@@ -63,14 +74,41 @@ export default class AddEntry extends Component {
         sleep: 0,
         eat: 0
       })
-    // Will update Redux
+
+      this.props.dispatch(addEntry({
+      [key]: entry
+    }))
     // Navigate to Home
-    // Save to DB
+    submitEntry({key, entry})
+
     // Clear local notifaction
+  }
+
+  reset = () => {
+    const key = timeToString()
+
+    this.props.dispatch(addEntry({
+      [key]: getDailyRemindersValue()
+    }))
+    // Rout to Home
+    removeEntry(key)
   }
 
   render() {
     const metaInfo = getMetricsMetaInfo()
+    if (this.props.alreadyLogged) {
+      return (<View>
+        <Ionicons
+          name='ios-happy-outline'
+          size={100}
+          />
+          <Text>You already logged your information for today</Text>
+          <TextButton
+            onPress={this.reset}>
+            Reset
+          </TextButton>
+      </View>)
+    }
     return(
       <View>
         <DateHeader date={(new Date()).toLocaleDateString()} />
@@ -89,8 +127,8 @@ export default class AddEntry extends Component {
                   />
               : <UdaciStepper
                   value={value}
-                  increment={() => this.increment(key) }
-                  decrement={() => this.decrement(key) }
+                  onIncrement={() => this.increment(key) }
+                  onDecrement={() => this.decrement(key) }
                   {...rest}
                 />}
             </View>)
@@ -100,3 +138,12 @@ export default class AddEntry extends Component {
       </View>)
   }
 }
+
+function mapStateToProps (state) {
+  const key = timeToString()
+  return {
+    alreadyLogged: state[key] && (typeof state[key].today === 'undefined')
+  }
+}
+
+export default connect(mapStateToProps)(AddEntry)
