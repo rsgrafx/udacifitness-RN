@@ -1,6 +1,7 @@
 import React, { Component  } from 'react'
-import {View, Text, TouchableOpacity} from 'react-native'
+import {View, Text, TouchableOpacity, Platform} from 'react-native'
 import  {connect} from 'react-redux'
+import styles from '../styles/base'
 
 import {
   getMetricsMetaInfo,
@@ -17,8 +18,11 @@ import {addEntry} from '../actions'
 
 function SubmitBtn ({onPress}) {
   return(
-    <TouchableOpacity onPress={onPress}>
-      <Text>Submit</Text>
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.submitBtn}>
+      <Text
+        style={styles.btnText}>Submit</Text>
     </TouchableOpacity>
   )
 }
@@ -97,27 +101,28 @@ class AddEntry extends Component {
   render() {
     const metaInfo = getMetricsMetaInfo()
     if (this.props.alreadyLogged) {
-      return (<View>
+      return (<View style={styles.center}>
         <Ionicons
-          name='ios-happy-outline'
+          name={Platform.OS === 'ios' ? 'ios-happy-outline' : 'md-happy'}
           size={100}
           />
           <Text>You already logged your information for today</Text>
           <TextButton
+            style={{padding: 10}}
             onPress={this.reset}>
             Reset
           </TextButton>
       </View>)
     }
     return(
-      <View>
+      <View style={styles.container}>
         <DateHeader date={(new Date()).toLocaleDateString()} />
         {Object.keys(metaInfo).map((key) => {
           const {getIcon, type, ...rest} = metaInfo[key]
           const value = this.state[key]
 
           return (
-            <View key={key}>
+            <View key={key} style={styles.row}>
               {getIcon()}
               {type === 'slider'
               ? <UdaciSlider
