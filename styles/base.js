@@ -22,6 +22,12 @@ let styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 30,
     marginRight: 30
+  },
+  row: {},
+  metricCounter: {
+    width: 85,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
 
