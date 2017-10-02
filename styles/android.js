@@ -17,6 +17,12 @@ const androidStyles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center',
     backgroundColor: 'red'
+  },
+  btn: {
+    margin: 5,
+    backgroundColor: purple,
+    padding: 10,
+    borderRadius: 2
   }
 })
 

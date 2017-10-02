@@ -6,6 +6,20 @@ import androidStyles from './android'
 import iosStyles from './ios'
 
 let styles = StyleSheet.create({
+
+  reset: {
+    textAlign: 'center',
+    color: purple
+  },
+  dateHelper: {
+    color: purple,
+    fontSize: 25
+  },
+  sliderStyle: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center'
+  },
   container: {
     flex: 1,
     padding: 20,

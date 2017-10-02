@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet} from 'react-native'
-import {white, purple} from '../utils/colors'
+import {white, purple, gray} from '../utils/colors'
 
 const iosStyles = StyleSheet.create({
   submitBtn: {
