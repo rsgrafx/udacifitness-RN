@@ -1,13 +1,18 @@
 import React from 'react'
-import {View, Text} from 'react-native'
+import {View, Text, TouchableOpacity} from 'react-native'
 import {connect} from 'react-redux'
 import {receiveEntries, addEntry} from '../actions'
 import {timeToString, getDailyReminderValue} from '../utils/helpers'
 import {fetchCalendarResults} from '../utils/api'
 import UdaciFitnessCalendar from 'udacifitness-calendar'
+import DateHeader from './DateHeader'
+import MetricCard from './MetricCard'
+import styles from '../styles/base'
+
+import {AppLoading} from 'expo'
 
 class History extends React.Component {
-
+  state = {ready: false}
   componentDidMount() {
     const {dispatch} = this.props
     fetchCalendarResults()
@@ -26,23 +31,38 @@ class History extends React.Component {
   }
 
   renderItem = ({today, ...metrics}, formattedDate, key) => (
-    <View>
+    <View style={styles.dateItem} >
       {today
-      ? <Text>{JSON.stringify(today)}</Text>
-      : <Text>{JSON.stringify(metrics)}</Text>}
+      ? <View>
+          <DateHeader date={formattedDate} />
+          <Text style={styles.noDataText}>
+            {today}
+          </Text>
+        </View>
+      : <TouchableOpacity onPress={() => console.log("pressed")} >
+          <MetricCard date={formattedDate} metrics={metrics} />
+        </TouchableOpacity>
+      }
     </View>
   )
 
   renderEmptyDate(formattedDate) {
     return(
-      <View style={{flex: 1}}>
-        <Text>No Data for this day</Text>
+      <View style={styles.dateItem}>
+        <DateHeader date={formattedDate} />
+        <Text style={styles.noDataText}>
+          You didn't log any data on this day.
+        </Text>
       </View>
     )
   }
 
   render() {
+    const {ready} = this.state
     const {entries} = this.props
+    if (ready === false) {
+      return <AppLoading />
+    }
     return(
       <UdaciFitnessCalendar
         items={entries}

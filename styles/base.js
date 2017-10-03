@@ -6,7 +6,27 @@ import androidStyles from './android'
 import iosStyles from './ios'
 
 let styles = StyleSheet.create({
-
+  noDataText: {
+    fontSize: 20,
+    paddingTop: 20,
+    paddingBottom: 20
+  },
+  dateItem: {
+    backgroundColor: white,
+    borderRadius: Platform.OS === 'ios' ? 10 : 2,
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 20,
+    marginTop: 17,
+    justifyContent: 'center',
+    shadowRadius: 3,
+    shadowOpacity: 0.8,
+    shadowColor: 'rgba(0,0,0,0.26)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    }
+  },
   reset: {
     textAlign: 'center',
     color: purple
