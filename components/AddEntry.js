@@ -6,7 +6,7 @@ import styles from '../styles/base'
 import {
   getMetricsMetaInfo,
   timeToString,
-  getDailyRemindersValue
+  getDailyReminderValue
 } from  '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciStepper from './UdaciStepper'
