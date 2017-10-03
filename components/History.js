@@ -36,7 +36,6 @@ class History extends React.Component {
   renderEmptyDate(formattedDate) {
     return(
       <View style={{flex: 1}}>
-        <Text>{JSON.stringify(this.props)}</Text>
         <Text>No Data for this day</Text>
       </View>
     )
@@ -45,13 +44,11 @@ class History extends React.Component {
   render() {
     const {entries} = this.props
     return(
-      <View>
       <UdaciFitnessCalendar
         items={entries}
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
         />
-      </View>
     )
   }
 }
@@ -59,4 +56,4 @@ class History extends React.Component {
 function mapStateToProps (entries) {
   return {entries}
 }
-export default connect(mapStateToProps, null)(History)
+export default connect(mapStateToProps)(History)
