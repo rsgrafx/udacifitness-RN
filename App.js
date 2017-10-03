@@ -68,7 +68,8 @@ const MainNavigator = StackNavigator({
       }
     }
   }
-})
+}
+)
 
 
 export default class App extends React.Component {
