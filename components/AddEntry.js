@@ -2,6 +2,8 @@ import React, { Component  } from 'react'
 import {View, Text, TouchableOpacity, Platform} from 'react-native'
 import  {connect} from 'react-redux'
 import styles from '../styles/base'
+import {NavigationActions} from 'react-navigation'
+
 
 import {
   getMetricsMetaInfo,
@@ -84,20 +86,25 @@ class AddEntry extends Component {
     }))
     // Navigate to Home
     submitEntry({key, entry})
-
-    // Clear local notifaction
+    this.toHome()
   }
 
   reset = () => {
     const key = timeToString()
 
     this.props.dispatch(addEntry({
-      [key]: getDailyRemindersValue()
+      [key]: getDailyReminderValue()
     }))
     // Rout to Home
     removeEntry(key)
+    this.toHome()
   }
 
+  toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({
+      key: 'AddEntry'
+    }))
+  }
   render() {
     const metaInfo = getMetricsMetaInfo()
     if (this.props.alreadyLogged) {
